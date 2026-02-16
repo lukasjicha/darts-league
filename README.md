@@ -1,3 +1,4 @@
+![Logo projektu](screenshots/main-screen.png)
 
 🎯 Darts League – Šipkový zapisovač
 
