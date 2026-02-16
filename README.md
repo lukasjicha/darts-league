@@ -34,11 +34,11 @@ Funguje na notebooku, tabletu i mobilu
 
 Vše běží čistě v prohlížeči.
 
-![Logo projektu](screenshots/501.png)
+![501](screenshots/501.png)
 
-![Logo projektu](screenshots/cricket.png)
+![cricket](screenshots/cricket.png)
 
-![Logo projektu](screenshots/turnaj-pavouk.png)
+![pavouk](screenshots/turnaj-pavouk.png)
 
 📱 Podpora zařízení
 
