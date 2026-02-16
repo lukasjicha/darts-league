@@ -33,6 +33,20 @@ Funguje na notebooku, tabletu i mobilu
 
 Vše běží čistě v prohlížeči.
 
+📱 Podpora zařízení
+
+Aplikace je navržena tak, aby fungovala:
+
+na notebooku
+
+na tabletu
+
+na mobilním telefonu
+
+Rozhraní je responzivní a bylo záměrně upraveno tak, aby bylo pohodlně použitelné i na menších obrazovkách.
+
+Otestováno v běžných moderních prohlížečích.
+
 📦 Jak to použít
 
 Stáhni soubor Darts-League.html
