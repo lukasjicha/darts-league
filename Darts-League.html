@@ -542,7 +542,7 @@ body{font-family:'IBM Plex Mono',monospace;background:var(--bg);color:var(--text
 
   </div>
 </div>
-<div class="version-footer">v20 · LuckyLuke81</div>
+<div class="version-footer">v1.0.1 · LuckyLuke81</div>
 <div class="screen" id="gameScreen">
   <div class="game-header">
     <div class="gh-left">
@@ -778,7 +778,7 @@ const CK={
 102:['T20 S2 D20','T20 T6 D12'],
 101:['T20 S1 D20','T17 BULL D1'],
 100:['T20 D20'],
-99:['T19 D21','T19 S2 D20','T20 S7 D16'],
+99:['T19 S2 D20','T20 S7 D16'],
 98:['T20 D19'],
 97:['T19 D20'],
 96:['T20 D18','T16 T20 D6'],
@@ -2473,8 +2473,10 @@ function czNumber(n) {
     const t = Math.floor(n/10), o = n%10;
     return tens[t] + (o > 0 ? ' ' + ones[o] : '');
   }
-  if (n < 200) return 'sto ' + czNumber(n-100);
-  return 'dvě stě ' + czNumber(n-200);
+  if (n < 200) {
+  const r = n - 100;
+  return r ? ('sto ' + czNumber(r)) : 'sto';
+}
 }
 
 let pubMode = false;
