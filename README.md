@@ -7,8 +7,11 @@ Funguje kompletně offline bez instalace.
 Projekt vznikl z jednoduché potřeby – hrát šipky bez reklam, bez internetu, bez registrací a bez složitostí.
 
 Jeden HTML soubor.
+
 Žádný backend.
+
 Žádné účty.
+
 Stačí otevřít a hrát.
 
 
