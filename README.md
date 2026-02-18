@@ -1,20 +1,18 @@
-![Logo projektu](screenshots/main-screen.png)
+🎯 Darts League – Šipková liga & Darts Scoreboard (CZ)
 
-🎯 Darts League – Šipkový zapisovač
+Webová aplikace na šipky pro PC, tablet i mobil.
+Slouží jako počítadlo skóre (darts scoreboard) a správce šipkové ligy.
+Funguje kompletně offline bez instalace.
 
-Jednoduchý offline zapisovač šipek vytvořený jako hobby projekt pro hraní v hospodě na notebooku.
-
-Vzniklo to z jednoduché potřeby – chtěli jsme hrát šipky bez reklam, bez internetu, bez registrací a bez složitostí.
-Nenašli jsme nic, co by nám vyhovovalo.
-Tak vzniklo tohle.
+Projekt vznikl z jednoduché potřeby – hrát šipky bez reklam, bez internetu, bez registrací a bez složitostí.
 
 Jeden HTML soubor.
-Funguje offline.
-Žádné instalace.
-Žádné reklamy.
-Žádné sledování.
+Žádný backend.
+Žádné účty.
+Stačí otevřít a hrát.
+![Logo projektu](screenshots/main-screen.png)
 
-🕹 Co aplikace umí
+🕹 Funkce aplikace
 
 Hra 301 / 501 (včetně dohozů a bust pravidel)
 
@@ -30,7 +28,7 @@ Historie zápasů
 
 Hlasové hlášky (čeština)
 
-Funguje na notebooku, tabletu i mobilu
+Plně funkční na notebooku, tabletu i mobilu
 
 Vše běží čistě v prohlížeči.
 
