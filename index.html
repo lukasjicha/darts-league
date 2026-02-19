@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Šipková Liga – Darts Scoreboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e14;
+  --surface: #131920;
+  --surface2: #1a2230;
+  --border: #2a3545;
+  --accent: #e63946;
+  --accent-glow: rgba(230,57,70,.35);
+  --green: #2ec46a;
+  --gold: #f0a500;
+  --gold-glow: rgba(240,165,0,.3);
+  --blue: #2e86de;
+  --text: #e8edf3;
+  --text-dim: #7a8a9e;
+  --text-muted: #4a5a6e;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'IBM Plex Mono', monospace;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── BACKGROUND ── */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(46,134,222,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(46,134,222,.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+.bg-glow {
+  position: fixed;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 600px;
+  background: radial-gradient(ellipse, rgba(230,57,70,.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── LAYOUT ── */
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ── HERO ── */
+.hero {
+  text-align: center;
+  padding: 4rem 0 3rem;
+  animation: fadeUp .7s ease both;
+}
+
+.hero-target {
+  font-size: 5rem;
+  line-height: 1;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 0 30px var(--accent-glow));
+  animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { filter: drop-shadow(0 0 20px var(--accent-glow)); }
+  50% { filter: drop-shadow(0 0 45px rgba(230,57,70,.6)); }
+}
+
+.hero h1 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-shadow: 0 0 40px var(--gold-glow);
+  line-height: 1.1;
+  margin-bottom: .5rem;
+}
+
+.hero-sub {
+  font-size: .75rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.hero-desc {
+  font-size: .9rem;
+  color: var(--text-dim);
+  max-width: 520px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.8;
+}
+
+.btn-play {
+  display: inline-block;
+  padding: 1rem 3rem;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 30px var(--accent-glow);
+  transition: all .2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-play::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,.15) 0%, transparent 60%);
+}
+
+.btn-play:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 40px var(--accent-glow);
+}
+
+.btn-secondary {
+  display: inline-block;
+  margin-left: 1rem;
+  padding: 1rem 2rem;
+  background: transparent;
+  color: var(--text-dim);
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: all .2s;
+}
+
+.btn-secondary:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* ── BADGES ── */
+.badges {
+  display: flex;
+  justify-content: center;
+  gap: .75rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.badge {
+  padding: .3rem .8rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: .65rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.badge.green { border-color: rgba(46,196,106,.3); color: var(--green); }
+.badge.gold { border-color: rgba(240,165,0,.3); color: var(--gold); }
+.badge.blue { border-color: rgba(46,134,222,.3); color: var(--blue); }
+
+/* ── DIVIDER ── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 3rem 0;
+}
+
+/* ── FEATURES ── */
+.section-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: .75rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-bottom: 3rem;
+  animation: fadeUp .7s ease .15s both;
+}
+
+.feature-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  transition: border-color .2s;
+}
+
+.feature-card:hover { border-color: var(--accent); }
+
+.feature-icon {
+  font-size: 1.8rem;
+  margin-bottom: .75rem;
+}
+
+.feature-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  color: var(--text);
+  margin-bottom: .4rem;
+}
+
+.feature-desc {
+  font-size: .72rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+/* ── SCREENSHOTS ── */
+.screenshots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-bottom: 3rem;
+  animation: fadeUp .7s ease .25s both;
+}
+
+.screenshot {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  transition: all .2s;
+}
+
+.screenshot:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0,0,0,.4);
+}
+
+.screenshot img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+
+.screenshot-label {
+  padding: .5rem .75rem;
+  font-size: .65rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: var(--surface);
+}
+
+/* ── HOW TO ── */
+.howto {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  animation: fadeUp .7s ease .3s both;
+}
+
+.steps {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+  flex: 1;
+  min-width: 160px;
+}
+
+.step-num {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+  flex-shrink: 0;
+  text-shadow: 0 0 20px var(--accent-glow);
+}
+
+.step-text {
+  font-size: .78rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+  padding-top: .2rem;
+}
+
+.step-text strong {
+  display: block;
+  font-family: 'Oswald', sans-serif;
+  font-size: .85rem;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: .06em;
+  margin-bottom: .2rem;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 0;
+  text-align: center;
+  animation: fadeUp .7s ease .4s both;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  font-size: .7rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color .15s;
+}
+
+.footer-links a:hover { color: var(--gold); }
+
+.footer-copy {
+  font-size: .6rem;
+  letter-spacing: .08em;
+  color: var(--text-muted);
+  opacity: .5;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .btn-secondary { margin-left: 0; margin-top: .75rem; }
+  .hero { padding: 2.5rem 0 2rem; }
+  .steps { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-target">🎯</div>
+    <h1>Šipková Liga</h1>
+    <p class="hero-sub">Darts Scoreboard &amp; Liga Manager</p>
+    <p class="hero-desc">
+      Počítadlo skóre a správce šipkové ligy pro PC, tablet i mobil.
+      Bez reklam, bez internetu, bez registrací. Jeden soubor, otevřít a hrát.
+    </p>
+    <div>
+      <a class="btn-play" href="Darts-League.html">▶ Spustit aplikaci</a>
+      <a class="btn-secondary" href="https://github.com/lukasjicha/sipkova-liga-darts-scoreboard" target="_blank">GitHub</a>
+    </div>
+    <div class="badges">
+      <span class="badge green">✓ 100% offline</span>
+      <span class="badge green">✓ bez instalace</span>
+      <span class="badge gold">✓ zdarma</span>
+      <span class="badge blue">✓ PC &amp; mobil</span>
+      <span class="badge">301 / 501 / Cricket</span>
+      <span class="badge">Turnajový pavouk</span>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- FEATURES -->
+  <p class="section-title">Funkce</p>
+  <div class="features">
+    <div class="feature-card">
+      <div class="feature-icon">🎮</div>
+      <div class="feature-title">Herní módy</div>
+      <div class="feature-desc">301, 501 s pravidly dobíhání a bustu. Cricket. Plně konfigurovatelné.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🏆</div>
+      <div class="feature-title">Turnajový pavouk</div>
+      <div class="feature-desc">Automaticky generovaný pavouk pro libovolný počet hráčů. Sledování postupu živě.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🤖</div>
+      <div class="feature-title">Boti</div>
+      <div class="feature-desc">Vestavění boti v různých obtížnostech – trénuj i když nejsou protihráči.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <div class="feature-title">Statistiky</div>
+      <div class="feature-desc">Detailní statistiky hráčů, historie zápasů, průměry, přesnost.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔊</div>
+      <div class="feature-title">Hlasové hlášky</div>
+      <div class="feature-desc">České hlasové komentáře. Ano, i ta s pivem. 🍺</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💾</div>
+      <div class="feature-title">Export / Import</div>
+      <div class="feature-desc">Záloha dat v JSON. Přenáš statistiky mezi zařízeními bez cloudu.</div>
+    </div>
+  </div>
+
+  <!-- SCREENSHOTS -->
+  <p class="section-title">Screenshoty</p>
+  <div class="screenshots">
+    <div class="screenshot">
+      <img src="screenshots/main-screen.png" alt="Hlavní obrazovka" onerror="this.style.display='none'">
+      <div class="screenshot-label">Hlavní obrazovka</div>
+    </div>
+    <div class="screenshot">
+      <img src="screenshots/501.png" alt="Hra 501" onerror="this.style.display='none'">
+      <div class="screenshot-label">Hra 501</div>
+    </div>
+    <div class="screenshot">
+      <img src="screenshots/cricket.png" alt="Cricket" onerror="this.style.display='none'">
+      <div class="screenshot-label">Cricket</div>
+    </div>
+    <div class="screenshot">
+      <img src="screenshots/turnaj_pavouk.png" alt="Turnajový pavouk" onerror="this.style.display='none'">
+      <div class="screenshot-label">Turnajový pavouk</div>
+    </div>
+  </div>
+
+  <!-- HOW TO -->
+  <div class="howto">
+    <p class="section-title" style="margin-bottom:1.5rem">Jak začít</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          <strong>Klikni Spustit</strong>
+          Nebo si stáhni HTML soubor z GitHubu.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          <strong>Přidej hráče</strong>
+          Zadej jména nebo použij uložený roster.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">
+          <strong>Zvol mód</strong>
+          301, 501, Cricket nebo turnaj.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">
+          <strong>Hraj</strong>
+          Nic víc není potřeba.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-links">
+      <a href="Darts-League.html">Spustit appku</a>
+      <a href="https://github.com/lukasjicha/sipkova-liga-darts-scoreboard" target="_blank">GitHub</a>
+      <a href="https://github.com/lukasjicha/sipkova-liga-darts-scoreboard/releases" target="_blank">Verze</a>
+      <a href="https://github.com/lukasjicha/sipkova-liga-darts-scoreboard-multiboard" target="_blank">Multi-board verze</a>
+    </div>
+    <p class="footer-copy">Šipková Liga · Zdarma · Offline · Bez reklam</p>
+  </footer>
+
+</div>
+</body>
+</html>
